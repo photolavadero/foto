@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio fotográfico">
+  <title> Fotografías</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="#inicio">PHOTOLAVADERO</a>
+  <button class="menu-toggle" aria-label="Abrir menú">☰</button>
+  <nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#fotografia">Fotografía</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<main>
+  <section id="inicio" class="hero">
+    <img src="images/hero.svg" alt="Fotografía de portada">
+    <div class="hero-overlay">
+      <p class="eyebrow">PORTFOLIO FOTOGRÁFICO</p>
+      <h1>PHOTOLAVADERO</h1>
+      <p>Fotografía de paisaje · retrato · arte urbano · ICM</p>
+      <a class="button" href="#fotografia">Ver fotografías</a>
+    </div>
+  </section>
+
+  <section id="fotografia" class="section">
+    <div class="section-heading">
+      <p class="eyebrow">SELECCIÓN</p>
+      <h2>Fotografía</h2>
+    </div>
+    <div class="gallery">
+      <figure><img src="images/foto-01.svg" alt="Fotografía 1"><figcaption>Bosque I</figcaption></figure>
+      <figure><img src="images/foto-02.svg" alt="Fotografía 2"><figcaption>Bosque II</figcaption></figure>
+      <figure><img src="images/foto-03.svg" alt="Fotografía 3"><figcaption>Movimiento</figcaption></figure>
+      <figure><img src="images/foto-04.svg" alt="Fotografía 4"><figcaption>Arquitectura</figcaption></figure>
+      <figure><img src="images/foto-05.svg" alt="Fotografía 5"><figcaption>Paisaje</figcaption></figure>
+      <figure><img src="images/foto-06.svg" alt="Fotografía 6"><figcaption>Zoom Burst</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="proyectos" class="section projects">
+    <div class="section-heading">
+      <p class="eyebrow">SERIES</p>
+      <h2>Proyectos</h2>
+    </div>
+    <div class="project-grid">
+
+    <a href="bosques.html">  
+     <article>
+        <img src="images/proyecto-bosques.svg" alt="Proyecto Bosques">
+        <div><span>01</span><h3>Bosques</h3><p>Una exploración visual del bosque, la atmósfera y la estructura natural.</p></div>
+      </article>
+    </a>
+
+      <article>
+        <img src="images/proyecto-icm.svg" alt="Proyecto ICM">
+        <div><span>02</span><h3>Movimiento</h3><p>Imágenes construidas mediante movimiento intencionado de cámara.</p></div>
+      </article>
+      <article>
+        <img src="images/proyecto-arquitectura.svg" alt="Proyecto Arquitectura">
+        <div><span>03</span><h3>Arquitectura</h3><p>Espacio, geometría, escala y relación entre arquitectura y entorno.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="sobre-mi" class="section about">
+    <div>
+    <p class="eyebrow">EL FOTÓGRAFO</p>
+      <h2>Photolavadero</h2>
+      <br> <br>
+      <br> <br>
+       <p>Tropezando con imágenes por la vida.</p>
+    </div>
+
+    <div>
+      <br> <br>
+      <br> <br>
+    <img src="images/grateful dead_ice.jpg" alt="Fotografía de TU NOMBRE" style="width:40%;max-width:500px;height:auto;display:block;margin-top:35px;">
+    </div>
+    
+  
+  </section>
+
+  <section id="contacto" class="contact">
+    <p class="eyebrow">CONTACTO</p>
+    <h2>¿Hablamos?</h2>
+    <p>Para proyectos, colaboraciones o consultas:</p>
+    <a class="email" href="mailto:tuemail@ejemplo.com">tuemail@ejemplo.com</a>
+    <div class="social">
+      <a href="#" aria-label="Instagram">Instagram</a>
+      <a href="#" aria-label="Flickr">Flickr</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© 2026 TU NOMBRE</span>
+  <span>Portfolio fotográfico</span>
+</footer>
+
+<div class="lightbox" aria-hidden="true">
+  <button class="close" aria-label="Cerrar">×</button>
+  <img src="" alt="">
+  <p></p>
+</div>
+
+<script>
+const figures = document.querySelectorAll('.gallery figure');
+const lightbox = document.querySelector('.lightbox');
+const lightboxImg = lightbox.querySelector('img');
+const lightboxCaption = lightbox.querySelector('p');
+
+figures.forEach(figure => {
+  figure.addEventListener('click', () => {
+    const img = figure.querySelector('img');
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightboxCaption.textContent = figure.querySelector('figcaption').textContent;
+    lightbox.setAttribute('aria-hidden', 'false');
+    lightbox.classList.add('open');
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+}
+lightbox.querySelector('.close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+const menuToggle = document.querySelector('.menu-toggle');
+const nav = document.querySelector('nav');
+menuToggle.addEventListener('click', () => nav.classList.toggle('open'));
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+</script>
+</body>
+</html>
