@@ -3,18 +3,18 @@
     "archivo": "paisaje-01.jpg",
     "titulo": "paisaje 01",
     "fecha_publicacion": "2026-09-20",
-    "hastags": []
+    "hashtags": []
   },
   {
     "archivo": "paisaje-02.jpg",
     "titulo": "paisaje 02",
     "fecha_publicacion": "2026-09-24",
-    "hastags": []
+    "hashtags": []
   },
   {
     "archivo": "paisaje-03.jpg",
     "titulo": "paisaje 03",
     "fecha_publicacion": "2026-09-27",
-    "hastags": []
+    "hashtags": []
   }
 ]
