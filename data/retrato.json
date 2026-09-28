@@ -3,12 +3,18 @@
     "archivo": "retrato-01.jpg",
     "titulo": "skate girls",
     "fecha_publicacion": "2026-09-20",
-    "hastags": ["retrato", "urbano"]
+    "hastags": [
+      "retrato",
+      "urbano"
+    ]
   },
   {
     "archivo": "retrato-02.jpg",
     "titulo": "mirada",
     "fecha_publicacion": "2026-09-20",
-    "hastags": ["retrato", "close up"]
+    "hastags": [
+      "retrato",
+      "close up"
+    ]
   }
 ]
