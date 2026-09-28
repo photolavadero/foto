@@ -103,51 +103,45 @@
 
       </div>
 
-      <div class="photo-grid">
+<!-- El siguiente parrafo es para implementar buscador desplegable -->
 
-        <figure>
-          <img
-            src="images/foto-01.jpg"
-            alt="Fotografía 1"
-          >
-        </figure>
-
-        <figure>
-          <img
-            src="images/foto-02.jpg"
-            alt="Fotografía 2"
-          >
-        </figure>
-
-        <figure>
-          <img
-            src="images/foto-03.jpg"
-            alt="Fotografía 3"
-          >
-        </figure>
-
-        <figure>
-          <img
-            src="images/foto-04.jpg"
-            alt="Fotografía 4"
-          >
-        </figure>
-
-        <figure>
-          <img
-            src="images/foto-05.jpg"
-            alt="Fotografía 5"
-          >
-        </figure>
-
-        <figure>
-          <img
-            src="images/foto-06.jpg"
-            alt="Fotografía 6"
-          >
-        </figure>
-
-      </div>
+	<div class="portfolio-search">
+	
+	  <div class="search-field">
+	    <label for="buscador">Buscar fotografías</label>
+	
+	    <input
+	      type="search"
+	      id="buscador"
+	      placeholder="Título, hashtag o proyecto..."
+	      autocomplete="off"
+	    >
+	  </div>
+	
+	
+	  <div class="search-field">
+	    <label for="filtro-hashtag">Hashtag</label>
+	
+	    <select id="filtro-hashtag">
+	      <option value="">Todos los hashtags</option>
+	    </select>
+	  </div>
+	
+	
+	  <div class="search-field">
+	    <label for="filtro-fecha">Fecha de publicación</label>
+	
+	    <input
+	      type="date"
+	      id="filtro-fecha"
+	    >
+	  </div>
+	
+	</div>
+	
+	<div id="resultados-busqueda" class="search-results"></div>
+	
+	<div id="photo-grid" class="photo-grid"></div>
 
     </section>
 
@@ -465,6 +459,292 @@
 
   </script>
 
+<!-- El siguiente parrafo, hasta el comando /body es el Java scipt de la busqueda -->
+
+<script>
+const proyectos = [
+  {
+    nombre: "Retrato",
+    archivo: "data/retrato.json",
+    carpeta: "images/retrato/"
+  },
+  {
+    nombre: "Paisaje",
+    archivo: "data/paisaje.json",
+    carpeta: "images/paisaje/"
+  },
+  {
+    nombre: "Arte urbano",
+    archivo: "data/arte-urbano.json",
+    carpeta: "images/arte-urbano/"
+  },
+  {
+    nombre: "Antropodendros",
+    archivo: "data/antropodendros.json",
+    carpeta: "images/antropodendros/"
+  },
+  {
+    nombre: "Twist-Art",
+    archivo: "data/twist-art.json",
+    carpeta: "images/twist-art/"
+  }
+];
+
+const photoGrid = document.getElementById("photo-grid");
+const buscador = document.getElementById("buscador");
+
+<!-- las siguientes 2 lineas implementan el buscador de hashtags y fechas -->
+
+const filtroHashtag = document.getElementById("filtro-hashtag");
+const filtroFecha = document.getElementById("filtro-fecha");
+
+const resultados = document.getElementById("resultados-busqueda");
+
+let todasLasFotos = [];
+
+<!-- El siguiente parrafo implementa el desplegable del buscador  -->
+
+	function cargarHashtags() {
+	
+	  const hashtags = new Set();
+	
+	  todasLasFotos.forEach(foto => {
+	
+	    (foto.hashtags || []).forEach(tag => {
+	
+	      const hashtag = tag
+	        .trim()
+	        .toLowerCase();
+	
+	      if (hashtag) {
+	        hashtags.add(hashtag);
+	      }
+	
+	    });
+	
+	  });
+	
+	
+	  const lista = [...hashtags].sort((a, b) =>
+	    a.localeCompare(b, "es")
+	  );
+	
+	
+	  filtroHashtag.innerHTML = `
+	    <option value="">Todos los hashtags</option>
+	  `;
+	
+	
+	  lista.forEach(tag => {
+	
+	    const option = document.createElement("option");
+	
+	    option.value = tag;
+	    option.textContent = `#${tag}`;
+	
+	    filtroHashtag.appendChild(option);
+	
+	  });
+	
+	}
+
+
+async function cargarFotografias() {
+  try {
+    const resultadosJSON = await Promise.all(
+      proyectos.map(async proyecto => {
+        const respuesta = await fetch(proyecto.archivo);
+
+        if (!respuesta.ok) {
+          throw new Error(`No se pudo cargar ${proyecto.archivo}`);
+        }
+
+        const fotos = await respuesta.json();
+
+        return fotos.map(foto => ({
+          ...foto,
+          proyecto: proyecto.nombre,
+          carpeta: proyecto.carpeta
+        }));
+      })
+    );
+
+    todasLasFotos = resultadosJSON.flat();
+
+<!-- La siguiente línea carga los hashtags -->
+
+	cargarHashtags();
+
+    mostrarFotografias(todasLasFotos);
+
+  } catch (error) {
+    console.error(error);
+
+    resultados.textContent =
+      "No se han podido cargar las fotografías.";
+  }
+}
+
+function mostrarFotografias(fotos) {
+
+  photoGrid.innerHTML = "";
+
+  if (fotos.length === 0) {
+    resultados.textContent = "No se han encontrado fotografías.";
+    return;
+  }
+
+  resultados.textContent =
+    `${fotos.length} fotografía${fotos.length !== 1 ? "s" : ""}`;
+
+  fotos.forEach(foto => {
+
+    const figure = document.createElement("figure");
+
+    const hashtags = (foto.hashtags || [])
+      .map(tag => `#${tag}`)
+      .join(" ");
+
+    figure.innerHTML = `
+      <img
+        src="${foto.carpeta}${foto.archivo}"
+        alt="${foto.titulo}"
+        loading="lazy"
+      >
+
+      <figcaption class="photo-info">
+
+        <span class="photo-title">
+          ${foto.titulo}
+        </span>
+
+        <span class="photo-date">
+          ${formatearFecha(foto.fecha_publicacion)}
+        </span>
+
+        <span class="photo-project">
+          ${foto.proyecto}
+        </span>
+
+        <span class="photo-tags">
+          ${hashtags}
+        </span>
+
+      </figcaption>
+    `;
+
+    photoGrid.appendChild(figure);
+  });
+}
+
+function formatearFecha(fecha) {
+
+  const partes = fecha.split("-");
+
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+<!-- El siguiente parrafo implementa el sistema de busqueda, sustituyendo el bloque "buscador.addEventListener"  -->
+
+	function aplicarFiltros() {
+	
+	  const termino = buscador.value
+	    .trim()
+	    .toLowerCase();
+	
+	  const hashtagSeleccionado =
+	    filtroHashtag.value.toLowerCase();
+	
+	  const fechaSeleccionada =
+	    filtroFecha.value;
+	
+	
+	  const palabras = termino
+	    .split(/\s+/)
+	    .filter(Boolean);
+	
+	
+	  const filtradas = todasLasFotos.filter(foto => {
+	
+	
+	    /*
+	     * 1. BUSCADOR DE TEXTO
+	     */
+	
+	    const textoBusqueda = [
+	      foto.titulo || "",
+	      foto.proyecto || "",
+	      ...(foto.hashtags || [])
+	    ]
+	      .join(" ")
+	      .toLowerCase();
+	
+	
+	    const coincideTexto =
+	      palabras.length === 0 ||
+	      palabras.every(palabra =>
+	        textoBusqueda.includes(palabra)
+	      );
+	
+	
+	    /*
+	     * 2. HASHTAG
+	     */
+	
+	    const coincideHashtag =
+	      !hashtagSeleccionado ||
+	      (foto.hashtags || []).some(tag =>
+	        tag.toLowerCase() === hashtagSeleccionado
+	      );
+	
+	
+	    /*
+	     * 3. FECHA
+	     */
+	
+	    const coincideFecha =
+	      !fechaSeleccionada ||
+	      foto.fecha_publicacion === fechaSeleccionada;
+	
+	
+	    /*
+	     * FOTO VÁLIDA SOLO SI CUMPLE
+	     * TODOS LOS FILTROS ACTIVOS
+	     */
+	
+	    return (
+	      coincideTexto &&
+	      coincideHashtag &&
+	      coincideFecha
+	    );
+	
+	  });
+	
+	
+	  mostrarFotografias(filtradas);
+	
+	}
+	
+	
+	buscador.addEventListener(
+	  "input",
+	  aplicarFiltros
+	);
+	
+	
+	filtroHashtag.addEventListener(
+	  "change",
+	  aplicarFiltros
+	);
+	
+	
+	filtroFecha.addEventListener(
+	  "change",
+	  aplicarFiltros
+	);
+
+cargarFotografias();
+</script>
 
 </body>
 </html>
