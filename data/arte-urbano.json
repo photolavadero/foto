@@ -2,19 +2,19 @@
   {
     "archivo": "arte-urbano-01.jpg",
     "titulo": "la mutación",
-    "fecha_publicacion": "2026-09-28"
-    "hastags": []
+    "fecha_publicacion": "2026-09-28",
+    "hastags": ["urbano", "distopia"]
   },
   {
     "archivo": "arte-urbano-02.jpg",
     "titulo": "arte-urbano 02",
-    "fecha_publicacion": "2026-09-24"
-    "hastags": []
+    "fecha_publicacion": "2026-09-24",
+    "hastags": ["urbano", "arquitectura"]
   },
   {
     "archivo": "arte-urbano-03.jpg",
     "titulo": "arte-urbano 03",
-    "fecha_publicacion": "2026-09-27"
-    "hastags": []
+    "fecha_publicacion": "2026-09-27",
+    "hastags": ["arquitectura", "historica"]
   }
 ]
