@@ -821,6 +821,10 @@ h2 {
     gap: 0.7rem;
   }
 
+  .portfolio-search {
+    grid-template-columns: 1fr;
+  }
+  
   .project-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -879,13 +883,6 @@ h2 {
 
 }
 
-<!-- El siguiente comando implementa la busqueda en movil -->
-
- .portfolio-search {
-  grid-template-columns: 1fr;
-} 
-
-}
 
 
 /* =========================================================
