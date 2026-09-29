@@ -201,33 +201,33 @@ h2 {
    GALERÍA PRINCIPAL
 ========================================================= */
 
+<!-- El siguiente se modifica para implementar nuevo grid -->
+
 .photo-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 1rem;
 }
+
 
 .photo-grid figure {
-  overflow: hidden;
-  background: var(--bg-soft);
+  margin: 0;
+  min-width: 0;
 }
 
+
 .photo-grid img {
+  display: block;
+
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
 
   object-fit: cover;
 
-  transition:
-    transform 0.6s ease,
-    opacity 0.6s ease;
+  cursor: pointer;
 }
-
-.photo-grid figure:hover img {
-  transform: scale(1.035);
-  opacity: 0.82;
-}
-
 
 /* =========================================================
    PROYECTOS
@@ -523,29 +523,95 @@ h2 {
   opacity: 0.82;
 }
 
+<!-- El siguiente parrafo modifica el tamaño de info bajo el grid -->
+
 .photo-info {
-  padding: 15px 3px 10px;
+  padding-top: 0.5rem;
 }
 
 .photo-title {
-  font-size: 15px;
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.3;
 }
 
 .photo-date {
-  margin-top: 4px;
-
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
   color: var(--text-soft);
+}
 
-  font-size: 11px;
+.photo-project {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
+  color: var(--text-soft);
 }
 
 .photo-tags {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.68rem;
+  line-height: 1.4;
   color: var(--text-soft);
-  font-size: 0.75rem;
-  line-height: 1.5;
 }
 
+<!-- El siguiente parrafo implementa el buscador desplegable -->
+
+.portfolio-search {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  max-width: 1000px;
+}
+
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+.search-field label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+
+.search-field input,
+.search-field select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--line);
+
+  background: var(--bg-soft);
+  color: var(--text);
+
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+
+.search-field input:focus,
+.search-field select:focus {
+  outline: none;
+  border-color: var(--text);
+}
+
+
+.search-results {
+  margin-bottom: 1.5rem;
+
+  color: var(--text-soft);
+
+  font-size: 0.8rem;
+}
 
 /* =========================================================
    VISOR A PANTALLA COMPLETA
@@ -686,7 +752,7 @@ h2 {
   }
 
   .photo-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .project-grid {
@@ -705,8 +771,7 @@ h2 {
   .project-gallery {
     grid-template-columns: repeat(2, 1fr);
   }
-
-}
+  
 
 
 /* =========================================================
@@ -752,7 +817,8 @@ h2 {
   }
 
   .photo-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
   }
 
   .project-grid {
@@ -810,6 +876,14 @@ h2 {
     top: 15px;
     right: 15px;
   }
+
+}
+
+<!-- El siguiente comando implementa la busqueda en movil -->
+
+ .portfolio-search {
+  grid-template-columns: 1fr;
+} 
 
 }
 
