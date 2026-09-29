@@ -916,4 +916,171 @@ input:focus-visible {
   }
 
 }
+
+/* =========================================
+   VISOR A PANTALLA COMPLETA
+   ========================================= */
+
+.photo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 3rem;
+
+  background: rgba(0, 0, 0, 0.96);
+}
+
+.photo-lightbox.is-open {
+  display: flex;
+}
+
+.lightbox-content {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 1rem;
+}
+
+#lightbox-image {
+  display: block;
+
+  max-width: 92vw;
+  max-height: 82vh;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+}
+
+.lightbox-info {
+  text-align: center;
+
+  color: #fff;
+
+  font-size: 0.8rem;
+  line-height: 1.5;
+
+  max-width: 900px;
+}
+
+.lightbox-info .lightbox-title {
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.lightbox-info .lightbox-date,
+.lightbox-info .lightbox-project,
+.lightbox-info .lightbox-tags {
+  color: rgba(255,255,255,0.65);
+  margin-top: 0.15rem;
+}
+
+
+/* BOTÓN CERRAR */
+
+.lightbox-close {
+  position: absolute;
+
+  top: 1.2rem;
+  right: 1.5rem;
+
+  z-index: 2;
+
+  border: 0;
+  background: none;
+
+  color: #fff;
+
+  font-size: 2.5rem;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+
+/* BOTONES ANTERIOR / SIGUIENTE */
+
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  z-index: 2;
+
+  border: 0;
+  background: none;
+
+  color: #fff;
+
+  font-size: 4rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  padding: 1rem;
+}
+
+.lightbox-prev {
+  left: 1rem;
+}
+
+.lightbox-next {
+  right: 1rem;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover,
+.lightbox-close:hover {
+  opacity: 0.6;
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 700px) {
+
+  .photo-lightbox {
+    padding: 1rem;
+  }
+
+  #lightbox-image {
+    max-width: 94vw;
+    max-height: 78vh;
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    font-size: 2.5rem;
+  }
+
+  .lightbox-prev {
+    left: 0;
+  }
+
+  .lightbox-next {
+    right: 0;
+  }
+
+  .lightbox-close {
+    top: 0.7rem;
+    right: 0.8rem;
+  }
+
+}
+
 ```
