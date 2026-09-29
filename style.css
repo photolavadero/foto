@@ -201,7 +201,7 @@ h2 {
    GALERÍA PRINCIPAL
 ========================================================= */
 
-<!-- El siguiente se modifica para implementar nuevo grid -->
+/* El siguiente se modifica para implementar nuevo grid */
 
 .photo-grid {
   display: grid;
@@ -523,7 +523,7 @@ h2 {
   opacity: 0.82;
 }
 
-<!-- El siguiente parrafo modifica el tamaño de info bajo el grid -->
+/* El siguiente parrafo modifica el tamaño de info bajo el grid */
 
 .photo-info {
   padding-top: 0.5rem;
@@ -556,7 +556,7 @@ h2 {
   color: var(--text-soft);
 }
 
-<!-- El siguiente parrafo implementa el buscador desplegable -->
+/* El siguiente parrafo implementa el buscador desplegable */
 
 .portfolio-search {
   display: grid;
