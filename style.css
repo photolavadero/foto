@@ -613,123 +613,6 @@ h2 {
   font-size: 0.8rem;
 }
 
-/* =========================================================
-   VISOR A PANTALLA COMPLETA
-========================================================= */
-
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-
-  display: none;
-
-  background: rgba(0, 0, 0, 0.97);
-}
-
-.lightbox.is-open {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.lightbox-image {
-  max-width: 90vw;
-  max-height: 88vh;
-
-  width: auto;
-  height: auto;
-
-  object-fit: contain;
-}
-
-.lightbox-close {
-  position: absolute;
-  top: 25px;
-  right: 35px;
-
-  width: 45px;
-  height: 45px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 0;
-  background: transparent;
-
-  color: white;
-
-  font-size: 32px;
-  font-weight: 300;
-
-  cursor: pointer;
-}
-
-.lightbox-prev,
-.lightbox-next {
-  position: absolute;
-  top: 50%;
-
-  width: 70px;
-  height: 100px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transform: translateY(-50%);
-
-  border: 0;
-  background: transparent;
-
-  color: white;
-
-  font-size: 48px;
-  font-weight: 200;
-
-  cursor: pointer;
-
-  transition:
-    opacity 0.25s ease;
-}
-
-.lightbox-prev {
-  left: 20px;
-}
-
-.lightbox-next {
-  right: 20px;
-}
-
-.lightbox-prev:hover,
-.lightbox-next:hover,
-.lightbox-close:hover {
-  opacity: 0.55;
-}
-
-.lightbox-caption {
-  position: absolute;
-
-  left: 50%;
-  bottom: 30px;
-
-  transform: translateX(-50%);
-
-  text-align: center;
-}
-
-.lightbox-title {
-  font-size: 15px;
-}
-
-.lightbox-date {
-  margin-top: 4px;
-
-  color: var(--text-soft);
-
-  font-size: 11px;
-}
 
 
 /* =========================================================
@@ -772,7 +655,7 @@ h2 {
     grid-template-columns: repeat(2, 1fr);
   }
   
-
+}
 
 /* =========================================================
    RESPONSIVE — MÓVIL
@@ -855,17 +738,14 @@ h2 {
     gap: 25px;
   }
 
-  .lightbox-image {
+  #lightbox-image {
     max-width: 94vw;
     max-height: 82vh;
   }
 
   .lightbox-prev,
   .lightbox-next {
-    width: 45px;
-    height: 70px;
-
-    font-size: 35px;
+     font-size: 2.5rem;
   }
 
   .lightbox-prev {
@@ -877,8 +757,8 @@ h2 {
   }
 
   .lightbox-close {
-    top: 15px;
-    right: 15px;
+   top: 0.7rem;
+   right: 0.8rem;
   }
 
 }
