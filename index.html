@@ -489,9 +489,11 @@
 
   </script>
 
-<!-- El siguiente parrafo, hasta el comando /body es el Java scipt de la busqueda -->
 
 <script>
+```html
+<script>
+
 const proyectos = [
   {
     nombre: "Retrato",
@@ -520,31 +522,62 @@ const proyectos = [
   }
 ];
 
+
+/* =========================================================
+   ELEMENTOS DEL DOM
+========================================================= */
+
 const photoGrid = document.getElementById("photo-grid");
+
 const buscador = document.getElementById("buscador");
 
-<!-- las siguientes 2 lineas implementan el buscador de hashtags y fechas -->
+const filtroHashtag =
+  document.getElementById("filtro-hashtag");
 
-const filtroHashtag = document.getElementById("filtro-hashtag");
-const filtroFecha = document.getElementById("filtro-fecha");
+const filtroFecha =
+  document.getElementById("filtro-fecha");
 
-const resultados = document.getElementById("resultados-busqueda");
+const resultados =
+  document.getElementById("resultados-busqueda");
 
-```js
+
+/* =========================================================
+   DATOS
+========================================================= */
+
 let todasLasFotos = [];
 
-
-/* =========================================
-   FOTOS ACTUALMENTE VISIBLES
-   ========================================= */
-
 let fotosVisibles = [];
+
 let indiceLightbox = 0;
 
 
-/* =========================================
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+const lightbox =
+  document.getElementById("photo-lightbox");
+
+const lightboxImage =
+  document.getElementById("lightbox-image");
+
+const lightboxInfo =
+  document.getElementById("lightbox-info");
+
+const lightboxClose =
+  document.getElementById("lightbox-close");
+
+const lightboxPrev =
+  document.getElementById("lightbox-prev");
+
+const lightboxNext =
+  document.getElementById("lightbox-next");
+
+
+/* =========================================================
    CARGAR HASHTAGS
-   ========================================= */
+========================================================= */
 
 function cargarHashtags() {
 
@@ -554,35 +587,31 @@ function cargarHashtags() {
 
     (foto.hashtags || []).forEach(tag => {
 
-      const hashtag = tag
-        .trim()
-        .toLowerCase();
-
-      if (hashtag) {
-        hashtags.add(hashtag);
-      }
+      hashtags.add(tag);
 
     });
 
   });
 
 
-  const lista = [...hashtags].sort((a, b) =>
-    a.localeCompare(b, "es")
-  );
+  const hashtagsOrdenados =
+    Array.from(hashtags).sort((a, b) =>
+      a.localeCompare(b, "es", {
+        sensitivity: "base"
+      })
+    );
 
 
-  filtroHashtag.innerHTML = `
-    <option value="">Todos los hashtags</option>
-  `;
+  filtroHashtag.innerHTML =
+    '<option value="">Todos los hashtags</option>';
 
 
-  lista.forEach(tag => {
+  hashtagsOrdenados.forEach(tag => {
 
     const option =
       document.createElement("option");
 
-    option.value = tag;
+    option.value = tag.toLowerCase();
 
     option.textContent = `#${tag}`;
 
@@ -593,9 +622,9 @@ function cargarHashtags() {
 }
 
 
-/* =========================================
-   CARGAR FOTOGRAFÍAS
-   ========================================= */
+/* =========================================================
+   CARGAR TODAS LAS FOTOGRAFÍAS
+========================================================= */
 
 async function cargarFotografias() {
 
@@ -604,40 +633,34 @@ async function cargarFotografias() {
     const resultadosJSON =
       await Promise.all(
 
-        proyectos.map(
-          async proyecto => {
+        proyectos.map(async proyecto => {
 
-            const respuesta =
-              await fetch(proyecto.archivo);
+          const respuesta =
+            await fetch(proyecto.archivo);
 
+          if (!respuesta.ok) {
 
-            if (!respuesta.ok) {
-
-              throw new Error(
-                `No se pudo cargar ${proyecto.archivo}`
-              );
-
-            }
-
-
-            const fotos =
-              await respuesta.json();
-
-
-            return fotos.map(foto => ({
-
-              ...foto,
-
-              proyecto:
-                proyecto.nombre,
-
-              carpeta:
-                proyecto.carpeta
-
-            }));
+            throw new Error(
+              `No se pudo cargar ${proyecto.archivo}`
+            );
 
           }
-        )
+
+          const fotos =
+            await respuesta.json();
+
+
+          return fotos.map(foto => ({
+
+            ...foto,
+
+            proyecto: proyecto.nombre,
+
+            carpeta: proyecto.carpeta
+
+          }));
+
+        })
 
       );
 
@@ -646,19 +669,17 @@ async function cargarFotografias() {
       resultadosJSON.flat();
 
 
-    /* Cargar hashtags */
-
     cargarHashtags();
 
-
-    /* Mostrar todas las fotografías */
-
-    mostrarFotografias(todasLasFotos);
+    aplicarFiltros();
 
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Error cargando fotografías:",
+      error
+    );
 
     resultados.textContent =
       "No se han podido cargar las fotografías.";
@@ -668,16 +689,13 @@ async function cargarFotografias() {
 }
 
 
-/* =========================================
+/* =========================================================
    MOSTRAR FOTOGRAFÍAS
-   ========================================= */
+========================================================= */
 
 function mostrarFotografias(fotos) {
 
   photoGrid.innerHTML = "";
-
-
-  /* Guardamos los resultados actuales */
 
   fotosVisibles = fotos;
 
@@ -693,9 +711,7 @@ function mostrarFotografias(fotos) {
 
 
   resultados.textContent =
-    `${fotos.length} fotografía${
-      fotos.length !== 1 ? "s" : ""
-    }`;
+    `${fotos.length} fotografía${fotos.length !== 1 ? "s" : ""}`;
 
 
   fotos.forEach((foto, indice) => {
@@ -714,14 +730,14 @@ function mostrarFotografias(fotos) {
 
       <img
         src="${foto.carpeta}${foto.archivo}"
-        alt="${foto.titulo}"
+        alt="${foto.titulo || ""}"
         loading="lazy"
       >
 
       <figcaption class="photo-info">
 
         <span class="photo-title">
-          ${foto.titulo}
+          ${foto.titulo || ""}
         </span>
 
         <span class="photo-date">
@@ -741,39 +757,44 @@ function mostrarFotografias(fotos) {
     `;
 
 
-    /* =====================================
-       ABRIR LIGHTBOX AL HACER CLIC
-       ===================================== */
+    photoGrid.appendChild(figure);
+
 
     const imagen =
       figure.querySelector("img");
 
 
-    imagen.addEventListener(
-      "click",
-      () => {
+    imagen.addEventListener("click", () => {
 
-        abrirLightbox(indice);
+      indiceLightbox = indice;
 
-      }
-    );
+      abrirLightbox();
 
-
-    photoGrid.appendChild(figure);
+    });
 
   });
 
 }
 
 
-/* =========================================
+/* =========================================================
    FORMATEAR FECHA
-   ========================================= */
+========================================================= */
 
 function formatearFecha(fecha) {
 
+  if (!fecha) {
+    return "";
+  }
+
+
   const partes =
     fecha.split("-");
+
+
+  if (partes.length !== 3) {
+    return fecha;
+  }
 
 
   return `${partes[2]}/${partes[1]}/${partes[0]}`;
@@ -781,9 +802,9 @@ function formatearFecha(fecha) {
 }
 
 
-/* =========================================
-   BUSCADOR
-   ========================================= */
+/* =========================================================
+   APLICAR FILTROS
+========================================================= */
 
 function aplicarFiltros() {
 
@@ -794,8 +815,7 @@ function aplicarFiltros() {
 
 
   const hashtagSeleccionado =
-    filtroHashtag.value
-      .toLowerCase();
+    filtroHashtag.value.toLowerCase();
 
 
   const fechaSeleccionada =
@@ -812,9 +832,9 @@ function aplicarFiltros() {
     todasLasFotos.filter(foto => {
 
 
-      /* -------------------------------------
-         1. BUSCADOR DE TEXTO
-         ------------------------------------- */
+      /* -----------------------------------------------------
+         BUSCADOR DE TEXTO
+      ----------------------------------------------------- */
 
       const textoBusqueda = [
 
@@ -833,30 +853,28 @@ function aplicarFiltros() {
 
         palabras.length === 0 ||
 
-        palabras.every(
-          palabra =>
-            textoBusqueda.includes(palabra)
+        palabras.every(palabra =>
+          textoBusqueda.includes(palabra)
         );
 
 
-      /* -------------------------------------
-         2. HASHTAG
-         ------------------------------------- */
+      /* -----------------------------------------------------
+         FILTRO DE HASHTAG
+      ----------------------------------------------------- */
 
       const coincideHashtag =
 
         !hashtagSeleccionado ||
 
-        (foto.hashtags || []).some(
-          tag =>
-            tag.toLowerCase() ===
-            hashtagSeleccionado
+        (foto.hashtags || []).some(tag =>
+          tag.toLowerCase() ===
+          hashtagSeleccionado
         );
 
 
-      /* -------------------------------------
-         3. FECHA
-         ------------------------------------- */
+      /* -----------------------------------------------------
+         FILTRO DE FECHA
+      ----------------------------------------------------- */
 
       const coincideFecha =
 
@@ -865,11 +883,6 @@ function aplicarFiltros() {
         foto.fecha_publicacion ===
         fechaSeleccionada;
 
-
-      /* -------------------------------------
-         FOTO VÁLIDA SI CUMPLE
-         TODOS LOS FILTROS
-         ------------------------------------- */
 
       return (
 
@@ -889,29 +902,21 @@ function aplicarFiltros() {
 }
 
 
-/* =========================================
-   LIGHTBOX — ABRIR
-   ========================================= */
+/* =========================================================
+   ABRIR LIGHTBOX
+========================================================= */
 
-function abrirLightbox(indice) {
+function abrirLightbox() {
 
-  indiceLightbox =
-    indice;
-
-
-  actualizarLightbox();
-
-
-  const lightbox =
-    document.getElementById(
-      "photo-lightbox"
-    );
+  if (
+    !fotosVisibles.length ||
+    !lightbox
+  ) {
+    return;
+  }
 
 
-  lightbox.classList.add(
-    "is-open"
-  );
-
+  lightbox.classList.add("is-open");
 
   lightbox.setAttribute(
     "aria-hidden",
@@ -919,31 +924,27 @@ function abrirLightbox(indice) {
   );
 
 
-  /* Evita que se pueda hacer scroll
-     en la página mientras está abierto */
-
   document.body.style.overflow =
     "hidden";
+
+
+  actualizarLightbox();
 
 }
 
 
-/* =========================================
-   LIGHTBOX — CERRAR
-   ========================================= */
+/* =========================================================
+   CERRAR LIGHTBOX
+========================================================= */
 
 function cerrarLightbox() {
 
-  const lightbox =
-    document.getElementById(
-      "photo-lightbox"
-    );
+  if (!lightbox) {
+    return;
+  }
 
 
-  lightbox.classList.remove(
-    "is-open"
-  );
-
+  lightbox.classList.remove("is-open");
 
   lightbox.setAttribute(
     "aria-hidden",
@@ -951,21 +952,22 @@ function cerrarLightbox() {
   );
 
 
-  /* Recuperar scroll */
-
   document.body.style.overflow =
     "";
 
 }
 
 
-/* =========================================
-   LIGHTBOX — MOSTRAR FOTOGRAFÍA
-   ========================================= */
+/* =========================================================
+   ACTUALIZAR LIGHTBOX
+========================================================= */
 
 function actualizarLightbox() {
 
-  if (fotosVisibles.length === 0) {
+  if (
+    !fotosVisibles.length ||
+    !lightboxImage
+  ) {
     return;
   }
 
@@ -974,29 +976,18 @@ function actualizarLightbox() {
     fotosVisibles[indiceLightbox];
 
 
-  const imagen =
-    document.getElementById(
-      "lightbox-image"
-    );
+  if (!foto) {
+    return;
+  }
 
 
-  const info =
-    document.getElementById(
-      "lightbox-info"
-    );
-
-
-  /* Imagen */
-
-  imagen.src =
+  lightboxImage.src =
     `${foto.carpeta}${foto.archivo}`;
 
 
-  imagen.alt =
-    foto.titulo;
+  lightboxImage.alt =
+    foto.titulo || "";
 
-
-  /* Hashtags */
 
   const hashtags =
     (foto.hashtags || [])
@@ -1004,22 +995,18 @@ function actualizarLightbox() {
       .join(" ");
 
 
-  /* Información */
-
-  info.innerHTML = `
+  lightboxInfo.innerHTML = `
 
     <div class="lightbox-title">
-      ${foto.titulo}
+      ${foto.titulo || ""}
     </div>
 
     <div class="lightbox-date">
-      ${formatearFecha(
-        foto.fecha_publicacion
-      )}
+      ${formatearFecha(foto.fecha_publicacion)}
     </div>
 
     <div class="lightbox-project">
-      ${foto.proyecto}
+      ${foto.proyecto || ""}
     </div>
 
     <div class="lightbox-tags">
@@ -1031,22 +1018,18 @@ function actualizarLightbox() {
 }
 
 
-/* =========================================
-   LIGHTBOX — FOTOGRAFÍA ANTERIOR
-   ========================================= */
+/* =========================================================
+   FOTOGRAFÍA ANTERIOR
+========================================================= */
 
 function fotografiaAnterior() {
 
-  if (fotosVisibles.length === 0) {
+  if (!fotosVisibles.length) {
     return;
   }
 
 
   indiceLightbox--;
-
-
-  /* Si estamos en la primera,
-     volvemos a la última */
 
   if (indiceLightbox < 0) {
 
@@ -1061,22 +1044,18 @@ function fotografiaAnterior() {
 }
 
 
-/* =========================================
-   LIGHTBOX — FOTOGRAFÍA SIGUIENTE
-   ========================================= */
+/* =========================================================
+   FOTOGRAFÍA SIGUIENTE
+========================================================= */
 
 function fotografiaSiguiente() {
 
-  if (fotosVisibles.length === 0) {
+  if (!fotosVisibles.length) {
     return;
   }
 
 
   indiceLightbox++;
-
-
-  /* Si estamos en la última,
-     volvemos a la primera */
 
   if (
     indiceLightbox >=
@@ -1093,88 +1072,78 @@ function fotografiaSiguiente() {
 }
 
 
-/* =========================================
+/* =========================================================
    BOTONES DEL LIGHTBOX
-   ========================================= */
+========================================================= */
 
-document
-  .getElementById("lightbox-close")
-  .addEventListener(
-    "click",
-    cerrarLightbox
-  );
+lightboxClose.addEventListener(
+  "click",
+  cerrarLightbox
+);
 
 
-document
-  .getElementById("lightbox-prev")
-  .addEventListener(
-    "click",
-    fotografiaAnterior
-  );
+lightboxPrev.addEventListener(
+  "click",
+  fotografiaAnterior
+);
 
 
-document
-  .getElementById("lightbox-next")
-  .addEventListener(
-    "click",
-    fotografiaSiguiente
-  );
+lightboxNext.addEventListener(
+  "click",
+  fotografiaSiguiente
+);
 
 
-/* =========================================
-   TECLADO
-   ========================================= */
+/* =========================================================
+   CERRAR AL PULSAR FUERA DE LA IMAGEN
+========================================================= */
 
-document.addEventListener(
-  "keydown",
+lightbox.addEventListener(
+  "click",
   event => {
 
-    const lightbox =
-      document.getElementById(
-        "photo-lightbox"
-      );
-
-
-    /* Solo actuar si el visor está abierto */
-
     if (
-      !lightbox.classList.contains(
-        "is-open"
-      )
-    ) {
-
-      return;
-
-    }
-
-
-    /* ESC */
-
-    if (
-      event.key === "Escape"
+      event.target === lightbox
     ) {
 
       cerrarLightbox();
 
     }
 
+  }
+);
 
-    /* ← */
+
+/* =========================================================
+   TECLADO
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
 
     if (
-      event.key === "ArrowLeft"
+      !lightbox.classList.contains("is-open")
     ) {
+      return;
+    }
+
+
+    if (event.key === "Escape") {
+
+      cerrarLightbox();
+
+    }
+
+
+    if (event.key === "ArrowLeft") {
 
       fotografiaAnterior();
 
     }
 
 
-    /* → */
-
-    if (
-      event.key === "ArrowRight"
-    ) {
+    if (event.key === "ArrowRight") {
 
       fotografiaSiguiente();
 
@@ -1184,9 +1153,9 @@ document.addEventListener(
 );
 
 
-/* =========================================
-   EVENTOS DE BÚSQUEDA
-   ========================================= */
+/* =========================================================
+   BUSCADOR
+========================================================= */
 
 buscador.addEventListener(
   "input",
@@ -1206,12 +1175,13 @@ filtroFecha.addEventListener(
 );
 
 
-/* =========================================
+/* =========================================================
    INICIAR
-   ========================================= */
+========================================================= */
 
 cargarFotografias();
-```
+
+
 
 </script>
 
