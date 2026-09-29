@@ -89,62 +89,47 @@
          FOTOGRAFÍA
     ========================== -->
 
-    <section id="fotografia" class="section photography">
+  <section id="fotografia" class="section photography">
 
-      <div class="section-heading">
+  <div class="section-heading">
+    <p class="eyebrow">PORTFOLIO</p>
+    <h2>Fotografía</h2>
+  </div>
 
-        <p class="eyebrow">
-          PORTFOLIO
-        </p>
+  <div class="portfolio-search">
 
-        <h2>
-          Fotografía
-        </h2>
+    <div class="search-field">
+      <label for="buscador">Buscar fotografías</label>
+      <input
+        type="search"
+        id="buscador"
+        placeholder="Título, hashtag o proyecto..."
+        autocomplete="off"
+      >
+    </div>
 
-      </div>
+    <div class="search-field">
+      <label for="filtro-hashtag">Hashtag</label>
+      <select id="filtro-hashtag">
+        <option value="">Todos los hashtags</option>
+      </select>
+    </div>
 
-<!-- El siguiente parrafo es para implementar buscador desplegable -->
+    <div class="search-field">
+      <label for="filtro-fecha">Fecha de publicación</label>
+      <input
+        type="date"
+        id="filtro-fecha"
+      >
+    </div>
 
-	<div class="portfolio-search">
-	
-	  <div class="search-field">
-	    <label for="buscador">Buscar fotografías</label>
-	
-	    <input
-	      type="search"
-	      id="buscador"
-	      placeholder="Título, hashtag o proyecto..."
-	      autocomplete="off"
-	    >
-	  </div>
-	
-	
-	  <div class="search-field">
-	    <label for="filtro-hashtag">Hashtag</label>
-	
-	    <select id="filtro-hashtag">
-	      <option value="">Todos los hashtags</option>
-	    </select>
-	  </div>
-	
-	
-	  <div class="search-field">
-	    <label for="filtro-fecha">Fecha de publicación</label>
-	
-	    <input
-	      type="date"
-	      id="filtro-fecha"
-	    >
-	  </div>
-	
-	</div>
-	
-	<div id="resultados-busqueda" class="search-results"></div>
-	
-	<div id="photo-grid" class="photo-grid"></div>
+  </div>
 
-    </section>
+  <div id="resultados-busqueda" class="search-results"></div>
 
+  <div id="photo-grid" class="photo-grid"></div>
+
+</section>
 
     <!-- =========================
          PROYECTOS
