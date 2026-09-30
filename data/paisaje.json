@@ -13,8 +13,19 @@
   },
   {
     "archivo": "paisaje-03.jpg",
-    "titulo": "paisaje 03",
-    "fecha_publicacion": "2026-09-27",
+    "titulo": "Ajui",
+    "fecha_publicacion": "2026-09-30",
+    "hashtags": []
+  },
+      "archivo": "paisaje-04.jpg",
+    "titulo": "Ajui",
+    "fecha_publicacion": "2026-09-30",
+    "hashtags": []
+  },
+      "archivo": "paisaje-05.jpg",
+    "titulo": "El arbol de la vida",
+    "fecha_publicacion": "2026-09-30",
     "hashtags": []
   }
+  
 ]
