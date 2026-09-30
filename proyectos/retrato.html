@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>retrato — PHOTOLAVADERO</title>
+
+  <meta
+    name="description"
+    content="Proyecto retrato — Portfolio fotográfico de PHOTOLAVADERO."
+  >
+
+  <link
+    rel="stylesheet"
+    href="../style.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       CABECERA
+  ====================================================== -->
+
+  <header class="site-header">
+
+    <a
+      class="logo"
+      href="../index.html"
+    >
+      PHOTOLAVADERO
+    </a>
+
+
+    <nav class="main-nav">
+
+      <a href="../index.html#fotografia">
+        Fotografía
+      </a>
+
+      <a href="../index.html#proyectos">
+        Proyectos
+      </a>
+
+      <a href="../index.html#sobre-mi">
+        Sobre mí
+      </a>
+
+      <a href="../index.html#contacto">
+        Contacto
+      </a>
+
+    </nav>
+
+
+    <div class="social">
+
+      <a
+        href="https://www.instagram.com/TU_USUARIO/"
+        target="_blank"
+        rel="noopener"
+        aria-label="Instagram"
+      >
+        Instagram
+      </a>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- =====================================================
+       CONTENIDO DEL PROYECTO
+  ====================================================== -->
+
+  <main>
+
+    <section class="section project-page">
+
+
+      <!-- CABECERA DEL PROYECTO -->
+
+      <div class="project-header">
+
+        <p class="eyebrow">
+          PROYECTO 01
+        </p>
+
+        <h1>
+          retrato
+        </h1>
+
+        <p class="project-description">
+          Antiselfie: La persona en estado puro.
+        </p>
+
+      </div>
+
+
+
+      <!-- =================================================
+           CONTROLES
+      ================================================== -->
+
+      <div class="project-controls">
+
+
+        <!-- ORDEN -->
+
+        <div>
+
+          <label for="orden">
+            Ordenar:
+          </label>
+
+          <select id="orden">
+
+            <option value="recientes">
+              Más recientes
+            </option>
+
+            <option value="antiguas">
+              Más antiguas
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- BÚSQUEDA POR FECHA -->
+
+        <div>
+
+          <label for="fecha">
+            Buscar por fecha:
+          </label>
+
+          <input
+            type="date"
+            id="fecha"
+          >
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- =================================================
+           GALERÍA
+      ================================================== -->
+
+      <div
+        id="project-gallery"
+        class="project-gallery"
+      >
+
+        <!--
+          Las fotografías se generan automáticamente
+          a partir de data/retrato.json
+        -->
+
+      </div>
+
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       VISOR A PANTALLA COMPLETA
+  ====================================================== -->
+
+  <div
+    id="lightbox"
+    class="lightbox"
+    aria-hidden="true"
+  >
+
+
+    <!-- CERRAR -->
+
+    <button
+      id="lightbox-close"
+      class="lightbox-close"
+      type="button"
+      aria-label="Cerrar fotografía"
+    >
+      ×
+    </button>
+
+
+    <!-- ANTERIOR -->
+
+    <button
+      id="lightbox-prev"
+      class="lightbox-prev"
+      type="button"
+      aria-label="Fotografía anterior"
+    >
+      ←
+    </button>
+
+
+    <!-- IMAGEN -->
+
+    <img
+      id="lightbox-image"
+      class="lightbox-image"
+      src=""
+      alt=""
+    >
+
+
+    <!-- SIGUIENTE -->
+
+    <button
+      id="lightbox-next"
+      class="lightbox-next"
+      type="button"
+      aria-label="Fotografía siguiente"
+    >
+      →
+    </button>
+
+
+    <!-- INFORMACIÓN -->
+
+    <div class="lightbox-caption">
+
+      <div
+        id="lightbox-title"
+        class="lightbox-title"
+      ></div>
+
+      <div
+        id="lightbox-date"
+        class="lightbox-date"
+      ></div>
+
+      <div
+        id="lightbox-tags"
+        class="lightbox-tags"
+      ></div>
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script>
+
+    /*
+     * =====================================================
+     * CONFIGURACIÓN
+     * =====================================================
+     */
+
+    const DATA_URL = "../data/retrato.json";
+
+    const IMAGE_FOLDER = "../images/retrato/";
+
+
+
+    /*
+     * =====================================================
+     * ELEMENTOS
+     * =====================================================
+     */
+
+    const gallery =
+      document.getElementById("project-gallery");
+
+    const orden =
+      document.getElementById("orden");
+
+    const fecha =
+      document.getElementById("fecha");
+
+    const lightbox =
+      document.getElementById("lightbox");
+
+    const lightboxImage =
+      document.getElementById("lightbox-image");
+
+    const lightboxTitle =
+      document.getElementById("lightbox-title");
+
+    const lightboxDate =
+      document.getElementById("lightbox-date");
+
+    const lightboxTags =
+      document.getElementById("lightbox-tags");
+
+    const lightboxClose =
+      document.getElementById("lightbox-close");
+
+    const lightboxPrev =
+      document.getElementById("lightbox-prev");
+
+    const lightboxNext =
+      document.getElementById("lightbox-next");
+
+
+
+    /*
+     * =====================================================
+     * DATOS
+     * =====================================================
+     */
+
+    let photographs = [];
+
+    let visiblePhotographs = [];
+
+    let currentIndex = 0;
+
+
+
+    /*
+     * =====================================================
+     * CARGAR JSON
+     * =====================================================
+     */
+
+    async function loadPhotographs() {
+
+      try {
+
+        const response =
+          await fetch(DATA_URL);
+
+        if (!response.ok) {
+
+          throw new Error(
+            "No se pudo cargar retrato.json"
+          );
+
+        }
+
+        photographs =
+          await response.json();
+
+        visiblePhotographs =
+          [...photographs];
+
+        renderGallery();
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        gallery.innerHTML = `
+          <p>
+            No se han podido cargar las fotografías.
+          </p>
+        `;
+
+      }
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * ORDENAR Y FILTRAR
+     * =====================================================
+     */
+
+    function updateGallery() {
+
+      let result =
+        [...photographs];
+
+
+      /*
+       * FILTRO POR FECHA
+       */
+
+      if (fecha.value) {
+
+        result =
+          result.filter(
+            photo =>
+              photo.fecha_publicacion === fecha.value
+          );
+
+      }
+
+
+      /*
+       * ORDEN
+       */
+
+      if (orden.value === "recientes") {
+
+        result.sort(
+          (a, b) =>
+            new Date(b.fecha_publicacion) -
+            new Date(a.fecha_publicacion)
+        );
+
+      }
+
+
+      if (orden.value === "antiguas") {
+
+        result.sort(
+          (a, b) =>
+            new Date(a.fecha_publicacion) -
+            new Date(b.fecha_publicacion)
+        );
+
+      }
+
+
+      visiblePhotographs =
+        result;
+
+      renderGallery();
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * CREAR GALERÍA
+     * =====================================================
+     */
+
+    function renderGallery() {
+
+      gallery.innerHTML = "";
+
+
+      if (visiblePhotographs.length === 0) {
+
+        gallery.innerHTML = `
+          <p>
+            No hay fotografías para la fecha seleccionada.
+          </p>
+        `;
+
+        return;
+
+      }
+
+
+      visiblePhotographs.forEach(
+        (photo, index) => {
+
+
+          const figure =
+            document.createElement("figure");
+
+
+          figure.innerHTML = `
+
+            <img
+              src="${IMAGE_FOLDER}${photo.archivo}"
+              alt="${photo.titulo}"
+              loading="lazy"
+            >
+
+            <div class="photo-info">
+
+              <div class="photo-title">
+                ${photo.titulo}
+              </div>
+
+              <div class="photo-date">
+                ${formatDate(photo.fecha_publicacion)}
+              </div>
+
+	  <div class="photo-tags">
+	      ${(photo.hashtags || [])
+	        .map(tag => `#${tag}`)
+	        .join(" ")}
+	    </div>
+
+            </div>
+
+          `;
+
+
+          figure.addEventListener(
+            "click",
+            () => openLightbox(index)
+          );
+
+
+          gallery.appendChild(figure);
+
+        }
+      );
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * FORMATEAR FECHA
+     * =====================================================
+     */
+
+    function formatDate(dateString) {
+
+      const date =
+        new Date(
+          dateString + "T00:00:00"
+        );
+
+
+      return date.toLocaleDateString(
+        "es-ES",
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * ABRIR VISOR
+     * =====================================================
+     */
+
+    function openLightbox(index) {
+
+      if (
+        !visiblePhotographs.length
+      ) {
+        return;
+      }
+
+
+      currentIndex =
+        index;
+
+
+      updateLightbox();
+
+
+      lightbox.classList.add(
+        "is-open"
+      );
+
+
+      lightbox.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * ACTUALIZAR VISOR
+     * =====================================================
+     */
+
+    function updateLightbox() {
+
+      const photo =
+        visiblePhotographs[
+          currentIndex
+        ];
+
+
+      if (!photo) {
+        return;
+      }
+
+
+      lightboxImage.src =
+        IMAGE_FOLDER +
+        photo.archivo;
+
+
+      lightboxImage.alt =
+        photo.titulo;
+
+
+      lightboxTitle.textContent =
+        photo.titulo;
+
+
+      lightboxDate.textContent =
+        formatDate(
+          photo.fecha_publicacion
+        );
+
+
+     lightboxTags.textContent =
+       (photo.hashtags || [])
+          .map(tag => `#${tag}`)
+          .join(" ");
+
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * CERRAR VISOR
+     * =====================================================
+     */
+
+    function closeLightbox() {
+
+      lightbox.classList.remove(
+        "is-open"
+      );
+
+
+      lightbox.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      document.body.style.overflow =
+        "";
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * FOTO ANTERIOR
+     * =====================================================
+     */
+
+    function previousPhoto() {
+
+      if (
+        !visiblePhotographs.length
+      ) {
+        return;
+      }
+
+
+      currentIndex--;
+
+      if (
+        currentIndex < 0
+      ) {
+
+        currentIndex =
+          visiblePhotographs.length - 1;
+
+      }
+
+
+      updateLightbox();
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * FOTO SIGUIENTE
+     * =====================================================
+     */
+
+    function nextPhoto() {
+
+      if (
+        !visiblePhotographs.length
+      ) {
+        return;
+      }
+
+
+      currentIndex++;
+
+      if (
+        currentIndex >=
+        visiblePhotographs.length
+      ) {
+
+        currentIndex = 0;
+
+      }
+
+
+      updateLightbox();
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * EVENTOS
+     * =====================================================
+     */
+
+    orden.addEventListener(
+      "change",
+      updateGallery
+    );
+
+
+    fecha.addEventListener(
+      "change",
+      updateGallery
+    );
+
+
+    lightboxClose.addEventListener(
+      "click",
+      closeLightbox
+    );
+
+
+    lightboxPrev.addEventListener(
+      "click",
+      previousPhoto
+    );
+
+
+    lightboxNext.addEventListener(
+      "click",
+      nextPhoto
+    );
+
+
+
+    /*
+     * CERRAR AL PULSAR FUERA DE LA IMAGEN
+     */
+
+    lightbox.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target === lightbox
+        ) {
+
+          closeLightbox();
+
+        }
+
+      }
+    );
+
+
+
+    /*
+     * =====================================================
+     * TECLADO
+     * =====================================================
+     */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          !lightbox.classList.contains(
+            "is-open"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeLightbox();
+
+        }
+
+
+        if (
+          event.key === "ArrowLeft"
+        ) {
+
+          previousPhoto();
+
+        }
+
+
+        if (
+          event.key === "ArrowRight"
+        ) {
+
+          nextPhoto();
+
+        }
+
+      }
+    );
+
+
+
+    /*
+     * =====================================================
+     * PROTECCIÓN BÁSICA DE IMÁGENES
+     * =====================================================
+     */
+
+    document.addEventListener(
+      "contextmenu",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    document.addEventListener(
+      "dragstart",
+      function(event) {
+
+        if (
+          event.target.tagName === "IMG"
+        ) {
+
+          event.preventDefault();
+
+        }
+
+      }
+    );
+
+
+
+    /*
+     * =====================================================
+     * INICIAR
+     * =====================================================
+     */
+
+    loadPhotographs();
+
+  </script>
+
+
+</body>
+
+</html>
+```
