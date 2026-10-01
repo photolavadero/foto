@@ -1,20 +1,20 @@
 [
   {
     "archivo": "antropodendros-01.jpg",
-    "titulo": "antropodendros 01",
+    "titulo": "zoodendro 01",
     "fecha_publicacion": "2026-09-20",
-    "hashtags": []
+    "hashtags": ["bosque"]
   },
   {
     "archivo": "antropodendros-02.jpg",
-    "titulo": "antropodendros 02",
+    "titulo": "elfo oscuro",
     "fecha_publicacion": "2026-09-24",
-    "hashtags": []
+    "hashtags": ["arbol"]
   },
   {
     "archivo": "antropodendros-03.jpg",
-    "titulo": "antropodendros 03",
+    "titulo": "ent 01",
     "fecha_publicacion": "2026-09-27",
-    "hashtags": []
+    "hashtags": ["arbol"]
   }
 ]
