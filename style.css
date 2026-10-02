@@ -345,7 +345,15 @@ h2 {
   aspect-ratio: 3 / 4;
   object-fit: cover;
 }
-
+.sobre-mi-retrato {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
 
 /* =========================================================
    CONTACTO
