@@ -150,51 +150,6 @@ h2 {
 }
 
 
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero {
-  min-height: 100vh;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-
-  padding: 150px var(--side) 80px;
-  gap: 70px;
-}
-
-.hero-content {
-  max-width: 650px;
-}
-
-.hero h1 {
-  margin-bottom: 35px;
-
-  font-size: clamp(60px, 8vw, 125px);
-  letter-spacing: -0.065em;
-}
-
-.hero-text {
-  max-width: 520px;
-
-  color: var(--text-soft);
-  font-size: 17px;
-  line-height: 1.8;
-}
-
-.hero-image {
-  height: 75vh;
-  min-height: 500px;
-}
-
-.hero-image img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
 
 /* =========================================================
    PORTADA PRINCIPAL — FOTOGRAFÍA DE FONDO
