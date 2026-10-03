@@ -154,7 +154,7 @@ h2 {
 /* =========================================================
    PORTADA PRINCIPAL — FOTOGRAFÍA DE FONDO
 ========================================================= */
-/.hero {
+.hero {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
