@@ -22,12 +22,17 @@
     "titulo": "al final del passadis",
     "fecha_publicacion": "2026-09-28",
     "hashtags": ["modernismo"]
-  }
-  ,
+  },
   {
     "archivo": "arte-urbano-05.jpg",
     "titulo": "siempre tras tu hombro",
     "fecha_publicacion": "2026-10-03",
     "hashtags": ["escultura"]
+  },
+  {
+    "archivo": "arte-urbano-06.jpg",
+    "titulo": "plou al Güell",
+    "fecha_publicacion": "2026-10-03",
+    "hashtags": ["modernismo"]
   }
 ]
