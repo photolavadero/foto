@@ -33,7 +33,13 @@
     "archivo": "paisaje-06.jpg",
     "titulo": "arbol de la vida",
     "fecha_publicacion": "2026-10-01",
-    "hashtags": []
+    "hashtags": ["arbol"]
+  },
+  {
+    "archivo": "paisaje-07.jpg",
+    "titulo": "camino al refugio",
+    "fecha_publicacion": "2026-10-11",
+    "hashtags": ["meteo"]
   }
   
   
