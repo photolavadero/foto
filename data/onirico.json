@@ -9,7 +9,7 @@
     "archivo": "onirico-02.jpg",
     "titulo": "el templo del nuevo dios",
     "fecha_publicacion": "2026-10-15",
-    "hashtags": []
+    "hashtags": ["urbano"]
   },
   {
     "archivo": "onirico-03.jpg",
@@ -22,7 +22,12 @@
     "titulo": "emergencia",
     "fecha_publicacion": "2026-10-15",
     "hashtags": []
-  }
-  
+  },
+  {
+    "archivo": "onirico-05.jpg",
+    "titulo": "somiant truites",
+    "fecha_publicacion": "2026-10-25",
+    "hashtags": ["tradicion"]
+  } 
   
 ]
