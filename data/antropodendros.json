@@ -20,7 +20,7 @@
   {
     "archivo": "antropodendros-04.jpg",
     "titulo": "rock'n roll",
-    "fecha_publicacion": "2026-10-05",
+    "fecha_publicacion": "2026-10-04",
     "hashtags": ["roca"]
   },
   {
@@ -28,5 +28,17 @@
     "titulo": "pinocho y king-kong",
     "fecha_publicacion": "2026-10-16",
     "hashtags": ["roca"]
+  },
+  {
+    "archivo": "antropodendros-06.jpg",
+    "titulo": "ent furioso",
+    "fecha_publicacion": "2026-10-25",
+    "hashtags": ["arbol"]
+  },
+  {
+    "archivo": "antropodendros-07.jpg",
+    "titulo": "los guardianes del manantial",
+    "fecha_publicacion": "2026-11-03",
+    "hashtags": ["roca"]
   }
-] 
+]
