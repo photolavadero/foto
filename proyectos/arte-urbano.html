@@ -495,14 +495,16 @@ const lightboxInfoToggle =
 
           const figure =
             document.createElement("figure");
+		  const altText =
+			photo.alt || `${photo.titulo} — Fotografía por PHOTOLAVADERO`;
 
 
           figure.innerHTML = `
 
             <img
     src="${IMAGE_FOLDER}${photo.archivo}"
-    alt="${photo.alt || `${photo.titulo} — Fotografía de arte urbano por PHOTOLAVADERO`}"
-    ${index > 1 ? 'loading="lazy"' : ''}
+    alt="${altText}"
+	${index > 1 ? 'loading="lazy"' : ''}
   >
 
   <figcaption class="photo-info">
