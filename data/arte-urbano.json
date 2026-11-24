@@ -2,43 +2,50 @@
   {
     "archivo": "arte-urbano-01.jpg",
     "titulo": "la mutación",
+    "alt: "",
     "fecha_publicacion": "2026-09-28",
-    "hashtags": ["urbano", "distopia"]
+    "hashtags": ["industrial", "distopia", "Barcelona"]
   },
   {
     "archivo": "arte-urbano-02.jpg",
     "titulo": "las columnas de Hércules",
+    "alt: Columnas bajo la luna titulado las columnas de Hércules — Fotografía de arte urbano por PHOTOLAVADERO",    
     "fecha_publicacion": "2026-09-24",
-    "hashtags": ["urbano", "arquitectura"]
+    "hashtags": ["nocturno", "arquitectura", "Barcelona"]
   },
   {
     "archivo": "arte-urbano-03.jpg",
     "titulo": "carabela",
+    "alt: Carabela en el puerto de Barcelona titulado carabela — Fotografía de arte urbano por PHOTOLAVADERO",    
     "fecha_publicacion": "2026-09-27",
-    "hashtags": ["marina", "historica"]
+    "hashtags": ["marina", "historica", "Barcelona"]
   },
   {
     "archivo": "arte-urbano-04.jpg",
     "titulo": "al final del passadis",
+    "alt: Pasillo acristalado en Hospital de Sant Pau (Barcelona) titulado al final del passadis — Fotografía de arte urbano por PHOTOLAVADERO",    
     "fecha_publicacion": "2026-09-28",
-    "hashtags": ["modernismo"]
+    "hashtags": ["modernismo", "Barcelona"]
   },
   {
     "archivo": "arte-urbano-05.jpg",
     "titulo": "siempre tras tu hombro",
+    "alt: Psicopompo en el cementerio de Montjuich (Barcelona) titulado siempre tras tu hombro — Fotografía de arte urbano por PHOTOLAVADERO",    
     "fecha_publicacion": "2026-10-03",
-    "hashtags": ["escultura"]
+    "hashtags": ["escultura", "cementerio"]
   },
   {
     "archivo": "arte-urbano-06.jpg",
     "titulo": "plou al Güell",
+    "alt: Casa del guarda en Park Güell bajo la lluvia titulado plou al Güell — Fotografía de arte urbano por PHOTOLAVADERO",    
     "fecha_publicacion": "2026-10-03",
-    "hashtags": ["modernismo"]
+    "hashtags": ["modernismo", "Barcelona"]
   },
   {
     "archivo": "arte-urbano-07.jpg",
     "titulo": "amanecer Gaudi",
+    "alt: Gargola y trencadis en Park Güell titulado amanecer Gaudi — Fotografía de arte urbano por PHOTOLAVADERO",    
     "fecha_publicacion": "2026-11-21",
-    "hashtags": ["modernismo"]
+    "hashtags": ["modernismo", "Barcelona"]
   }
 ]
