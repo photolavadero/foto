@@ -10,12 +10,13 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>paisaje — PHOTOLAVADERO</title>
+  <title>Paisaje — PHOTOLAVADERO</title>
 
   <meta
     name="description"
-    content="Proyecto paisaje — Portfolio fotográfico de PHOTOLAVADERO."
+    content="Serie de fotografía de paisaje por PHOTOLAVADERO: espacio, atmósfera y luz.">
   >
+  <link rel="canonical" href="https://github.io">
 
   <link
     rel="stylesheet"
@@ -98,7 +99,7 @@
         </p>
 
         <h1>
-          paisaje
+          Paisaje
         </h1>
 
         <p class="project-description">
@@ -499,28 +500,26 @@ const lightboxInfoToggle =
           figure.innerHTML = `
 
             <img
-              src="${IMAGE_FOLDER}${photo.archivo}"
-              alt="${photo.titulo}"
-              loading="lazy"
-            >
+    src="${IMAGE_FOLDER}${photo.archivo}"
+    alt="${photo.alt || `${photo.titulo} — Fotografía de paisaje por PHOTOLAVADERO`}"
+    ${index > 1 ? 'loading="lazy"' : ''}
+  >
 
-            <div class="photo-info">
+  <figcaption class="photo-info">
+    <div class="photo-title">
+      ${photo.titulo}
+    </div>
 
-              <div class="photo-title">
-                ${photo.titulo}
-              </div>
+    <div class="photo-date">
+      ${formatDate(photo.fecha_publicacion)}
+    </div>
 
-              <div class="photo-date">
-                ${formatDate(photo.fecha_publicacion)}
-              </div>
-
-	  <div class="photo-tags">
-	      ${(photo.hashtags || [])
-	        .map(tag => `#${tag}`)
-	        .join(" ")}
-	    </div>
-
-            </div>
+    <div class="photo-tags">
+      ${(photo.hashtags || [])
+        .map(tag => `#${tag}`)
+        .join(" ")}
+    </div>
+  </figcaption>
 
           `;
 
@@ -738,7 +737,8 @@ if (lightboxInfoToggle) {
 
 
       lightboxImage.alt =
-        photo.titulo;
+        photo.alt ||
+        `${photo.titulo} — Fotografía por PHOTOLAVADERO`;
 
 
       lightboxTitle.textContent =
