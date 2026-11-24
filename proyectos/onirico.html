@@ -10,12 +10,13 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>onirico — PHOTOLAVADERO</title>
+  <title>Onirico — PHOTOLAVADERO</title>
 
   <meta
     name="description"
-    content="Proyecto onirico — Portfolio fotográfico de PHOTOLAVADERO."
+    content="Proyecto Onirico por PHOTOLAVADERO: No puedo decir cuando no estoy siendo real."
   >
+<link rel="canonical" href="https://github.io">
 
   <link
     rel="stylesheet"
@@ -498,29 +499,27 @@ const lightboxInfoToggle =
 
           figure.innerHTML = `
 
-            <img
-              src="${IMAGE_FOLDER}${photo.archivo}"
-              alt="${photo.titulo}"
-              loading="lazy"
-            >
+             <img
+    src="${IMAGE_FOLDER}${photo.archivo}"
+    alt="${photo.alt || `${photo.titulo} — Fotografía de estados oníricos por PHOTOLAVADERO`}"
+    ${index > 1 ? 'loading="lazy"' : ''}
+  >
 
-            <div class="photo-info">
+  <figcaption class="photo-info">
+    <div class="photo-title">
+      ${photo.titulo}
+    </div>
 
-              <div class="photo-title">
-                ${photo.titulo}
-              </div>
+    <div class="photo-date">
+      ${formatDate(photo.fecha_publicacion)}
+    </div>
 
-              <div class="photo-date">
-                ${formatDate(photo.fecha_publicacion)}
-              </div>
-
-	  <div class="photo-tags">
-	      ${(photo.hashtags || [])
-	        .map(tag => `#${tag}`)
-	        .join(" ")}
-	    </div>
-
-            </div>
+    <div class="photo-tags">
+      ${(photo.hashtags || [])
+        .map(tag => `#${tag}`)
+        .join(" ")}
+    </div>
+  </figcaption>
 
           `;
 
@@ -737,8 +736,9 @@ if (lightboxInfoToggle) {
         photo.archivo;
 
 
-      lightboxImage.alt =
-        photo.titulo;
+       lightboxImage.alt =
+        photo.alt ||
+        `${photo.titulo} — Fotografía por PHOTOLAVADERO`;
 
 
       lightboxTitle.textContent =
